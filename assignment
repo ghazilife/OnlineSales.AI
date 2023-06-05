@@ -1,0 +1,125 @@
+Task-1 SQL:
+To generate the output report using each worksheet as a table in a relational database, you can use the following SQL query:
+
+code:
+
+SELECT DEPT_NAME, AVG(MONTHLY_SALARY) AS AVG_MONTHLY_SALARY
+FROM employee
+GROUP BY DEPT_NAME
+ORDER BY AVG_MONTHLY_SALARY DESC
+LIMIT 3;
+
+
+=>In this query, we assume that the data is already loaded into separate tables in your relational database, with each worksheet corresponding to a table named accordingly (e.g., "employee"). The columns in the table should include "DEPT_NAME" and "MONTHLY_SALARY".
+
+=>The query selects the department name (DEPT_NAME) and calculates the average monthly salary (AVG_MONTHLY_SALARY) for each department using the AVG aggregate function. The results are then ordered in descending order of average monthly salary and limited to the top 3 using the LIMIT clause.
+
+Task-2 Scripting:
+To generate the same report using each worksheet as a CSV file, you can use a scripting language like Python.
+
+code:
+
+import csv
+
+def generate_report(file_path):
+    with open(file_path, 'r') as csv_file:
+        reader = csv.DictReader(csv_file)
+        salary_data = {}
+        for row in reader:
+            dept_name = row['DEPT_NAME']
+            monthly_salary = float(row['MONTHLY_SALARY'])
+            if dept_name not in salary_data:
+                salary_data[dept_name] = []
+            salary_data[dept_name].append(monthly_salary)
+        
+        report = []
+        for dept_name, salaries in salary_data.items():
+            avg_salary = sum(salaries) / len(salaries)
+            report.append((dept_name, avg_salary))
+        
+        report.sort(key=lambda x: x[1], reverse=True)
+        report = report[:3]
+        
+        print("DEPT_NAME")
+        print("AVG_MONTHLY_SALARY (USD)")
+        print()
+        for dept_name, avg_salary in report:
+            print(dept_name)
+            print(avg_salary)
+            print()
+
+# Call the function for each CSV file (worksheet) in the attachment
+generate_report('file1.csv')
+generate_report('file2.csv')
+generate_report('file3.csv')
+
+
+=>In this script, we assume that each worksheet is saved as a separate CSV file, and the file paths are provided as arguments to the generate_report function. The script reads the CSV file using the csv.DictReader and calculates the average monthly salary for each department.
+
+The results are then sorted in descending order of average monthly salary and limited to the top 3. Finally, the report is printed in the specified format, with department names and average monthly salaries displayed.
+
+You need to replace 'file1.csv', 'file2.csv', and 'file3.csv' with the actual file paths of each worksheet in the attachment.
+
+###HOW TO RUN THIS CODE###
+
+=>Set up Python: Make sure you have Python installed on your computer. If not, you can download and install it from the official Python website (https://www.python.org/).
+
+=>Save the code: Copy the Python code and save it into a file with a .py extension, such as report_generator.py.
+
+=>Prepare the CSV files: Ensure that you have the CSV files corresponding to each worksheet in the attachment. If the CSV files are not already available, create them by saving each worksheet as a separate CSV file.
+
+=>Update file paths: Replace 'file1.csv', 'file2.csv', and 'file3.csv' in the code with the actual file paths of the CSV files you prepared in the previous step.
+
+=>Run the script: Open a terminal or command prompt, navigate to the directory where you saved the Python file (report_generator.py), and run the script using the =>Python interpreter. To do this, type python report_generator.py and press Enter. This will execute the script and generate the report.
+
+=>View the report: After running the script, the generated report will be displayed in the terminal or command prompt window.
+
+###NOTE##
+Please note that the steps may vary slightly depending on your operating system and Python installation. Make sure you have the necessary permissions to access the CSV files and that the Python version you're using is compatible with the code.
+
+
+Task-3 Debugging
+Given below is a Bash / Python script that performs following computation on an integer input (n):
+If n is less than 10: Calculate its Square
+Example: 4 => 16
+If n is between 10 and 20: Calculate the factorial of (n-10)
+Example: 15 => 120
+If n is greater than 20: Calculate the sum of all integers between 1 and (n-20)
+Example: 25 => 15
+
+
+ corrected Python script that fixes the bugs:
+
+def compute(n):
+    if n < 10:
+        out = n ** 2
+    elif n < 20:
+        out = 1
+        for i in range(1, n-9):  # Fix: Changed n-10 to n-9
+            out *= i
+    else:
+        lim = n - 20
+        out = 0  # Fix: Changed lim * lim to 0
+        for i in range(1, lim + 1):
+            out += i
+    print(out)
+
+
+n = int(input("Enter an integer: "))
+compute(n)
+
+
+In the updated code:
+
+=>Line 8: The range in the elif block has been corrected from range(1, n-10) to range(1, n-9) to include the correct range of numbers.
+
+=>Line 11: The initialization of out in the else block has been corrected from lim * lim to 0. This change ensures that the variable is initialized to 0 before calculating the sum.
+
+=>Line 12: The calculation of the sum in the else block has been updated to use a for loop that iterates from 1 to lim and adds each number to the out variable.
+
+
+
+thanks & regarding
+
+MO JUNED
+mojunedgazi@gmail.com
